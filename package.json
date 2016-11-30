@@ -11,7 +11,10 @@
     "debug": "~2.2.0",
     "express": "~4.13.4",
     "jade": "~1.11.0",
+    "method-override": "^2.3.7",
     "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0"
+    "sequelize": "^3.27.0",
+    "serve-favicon": "~2.3.0",
+    "sqlite3": "^3.1.8"
   }
 }
