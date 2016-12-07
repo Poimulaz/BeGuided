@@ -5,18 +5,59 @@
 
 
 const models  = require('../models');
+const session = require('express-session');
 
 var Users = {
     index: function (req, res) {
+        console.log(req.session);
         models
             .User
             .findAll()
-            .then(function(users) {
-                res.render('index', {
-                    users: users
-                });
+            .then(function (users) {
+                req.session.firstname = "er";
+                console.log(req.session);
+                if(req.session.id_user){
+                    models.User.find({
+                        where: {
+                            id: req.session.id_user
+                        }
+                    }).then(function(user) {
+                        console.log("user is " + user);
+                        res.render('index', {
+                            users: users,
+                            user: user
+                        });
+                    });
+                }else{
+                    res.render('index', {
+                        users: users
+                    });
+                }
             });
-
+    },
+    connexion: function (req, res) {
+        models.User.find({
+           where: {
+               name: req.body.name,
+               firstname: req.body.firstname,
+               password: req.body.password
+           }
+        }).then(function(user){
+            if(user!=null){
+                req.session.id_user = user.id;
+                req.session.save(function(err) {
+                    if(err) throw (err);
+                    console.log("save");
+                    console.log( req.session);
+                    res.redirect('/users');
+                    // session saved
+                });
+            }
+            else {
+                console.log("null");
+                res.redirect('/users/connexion');
+            }
+        });
     },
     create: function (req, res) {
         if(req.body.name && req.body.firstname && req.body.password){
@@ -51,7 +92,7 @@ var Users = {
         }
         else{
             console.log("error: no input");
-            res.redirect("/users/inscription");
+            res.redirect('/users/inscription');
         }
     },
     update: function (req, res){

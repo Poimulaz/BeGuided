@@ -14,6 +14,12 @@ router.get('/inscription', function(req, res, next) {
 });
 router.post('/inscription', users.create);
 
+/* POST Connexion d'un utilisateur */
+router.get('/connexion', function(req, res, next){
+  res.render('users/connexion', {title: 'Connexion'});
+});
+router.post('/connexion', users.connexion);
+
 /* PUT Modification d'un utilisateur */
 router.get('/update', function(req, res, next) {
   res.render('users/update', { title: 'Update' });
