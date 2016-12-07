@@ -1,0 +1,13 @@
+//
+   Created by Pierre on 30/11/2016.
+// Nous allons chercher le layout dans le dossier parent
+extends ../layout
+// nous déclarons le block qui sera inséré dans le layout
+block content
+    // Nous affichons une variable title, le = nous permet d'échapper le caractère
+    h1=title
+    form(action='/users?_method=DELETE' method='POST')
+        input(type='text' name="name" placeholder='name')
+        input(type='text' name="firstname" placeholder='firstname')
+        input(type='submit')
+
