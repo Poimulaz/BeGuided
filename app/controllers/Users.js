@@ -19,12 +19,40 @@ var Users = {
 
     },
     create: function (req, res) {
-        models.User.create({ name: req.body.name, firstname: req.body.firstname, password: req.body.password}).then(function(){
-            console.log({error : null});
-        }, function () {
-            console.log({error : '1'});
-        });
-        res.redirect('/users');
+        if(req.body.name && req.body.firstname && req.body.password){
+            console.log("well input");
+            models.User.find({
+                where: {
+                    name: req.body.name,
+                    firstname: req.body.firstname
+                }
+            }).then( function(user){
+                console.log(user);
+                if(user!=null){
+                    console.log("not null");
+                    return false;
+                }
+                else
+                    console.log("null");
+                return true;
+            }).then( function(bool){
+                if(bool){
+                    models.User.create({ name: req.body.name, firstname: req.body.firstname, password: req.body.password}).then(function(){
+                        console.log({error : null});
+                    }, function () {
+                        console.log({error : '1'});
+                    });
+                }
+                else
+                    console.log("user already exist");
+            }).then( function () {
+                res.redirect('/users');
+            });
+        }
+        else{
+            console.log("error: no input");
+            res.redirect("/users/inscription");
+        }
     },
     update: function (req, res){
         models.User

@@ -10,19 +10,19 @@ router.get('/', users.index);
 
 /* POST Création d'un nouvel utilisateur */
 router.get('/inscription', function(req, res, next) {
-  res.render('users/inscription', { title: 'Express' });
+  res.render('users/inscription', { title: 'Inscription' });
 });
 router.post('/inscription', users.create);
 
 /* PUT Modification d'un utilisateur */
 router.get('/update', function(req, res, next) {
-  res.render('users/update', { title: 'Express' });
+  res.render('users/update', { title: 'Update' });
 });
 router.put('/', users.update);
 
 /* DELETE Suppression d'un utilisateur */
 router.get('/delete', function(req, res, next) {
-  res.render('users/delete', { title: 'Express' });
+  res.render('users/delete', { title: 'Delete' });
 });
 router.delete('/', users.delete);
 
