@@ -9,20 +9,16 @@ const session = require('express-session');
 
 var Users = {
     index: function (req, res) {
-        console.log(req.session);
         models
             .User
             .findAll()
             .then(function (users) {
-                req.session.firstname = "er";
-                console.log(req.session);
                 if(req.session.id_user){
                     models.User.find({
                         where: {
                             id: req.session.id_user
                         }
                     }).then(function(user) {
-                        console.log("user is " + user);
                         res.render('index', {
                             users: users,
                             user: user
@@ -48,9 +44,7 @@ var Users = {
                 req.session.save(function(err) {
                     if(err) throw (err);
                     console.log("save");
-                    console.log( req.session);
                     res.redirect('/users');
-                    // session saved
                 });
             }
             else {
@@ -78,7 +72,11 @@ var Users = {
                 return true;
             }).then( function(bool){
                 if(bool){
-                    models.User.create({ name: req.body.name, firstname: req.body.firstname, password: req.body.password}).then(function(){
+                    models.User.create({
+                        name: req.body.name,
+                        firstname: req.body.firstname,
+                        password: req.body.password
+                    }).then(function(){
                         console.log({error : null});
                     }, function () {
                         console.log({error : '1'});
@@ -99,13 +97,14 @@ var Users = {
         models.User
             .find({
                 where: {
-                    name: req.body.name,
-                    firstname: req.body.firstname
+                    id: req.session.id_user
                 }
             })
             .then( function (user) {
                 user.update({
-                    password: req.body.password
+                    password: (req.body.password)? req.body.password : user.password,
+                    name: (req.body.name)? req.body.name : user.name,
+                    firstname: (req.body.firstname)? req.body.firstname : user.firstname
                 }).then(function(){
                     console.log({error : null});
                 }, function () {
