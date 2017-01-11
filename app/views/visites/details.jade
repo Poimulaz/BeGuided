@@ -1,0 +1,9 @@
+//
+   Created by Pierre on 11/01/2017.
+extends ../layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+    if (visite)
+        h2= (visite.name + "  " + visite.description + " " + visite.user_id)

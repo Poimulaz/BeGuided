@@ -1,0 +1,15 @@
+//
+   Created by Pierre on 04/01/2017.
+extends ../layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+    if (visite)
+        h2= (visite.name + "  " + visite.description)
+    each visite in visites
+        li= (visite.name + "  " + visite.description + "  " + visite.user_id)
+    form(action='' method='post')
+        input(type='text' name="name" placeholder='Titre')
+        br
+        input(type="submit")
